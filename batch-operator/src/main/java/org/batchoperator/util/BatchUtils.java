@@ -19,10 +19,10 @@ public class BatchUtils {
 	public static final String INSERT_ERR_MSG = "生成插入语句失败，请检查输入参数!";
 	
 	/**
-	 * 根据表名，字段名，字段的类型
-	 * @param tabName 数据库表名
+	 * 根据表名，字段名，字段的类型生成一条插入语句
+	 * @param tabName 数据表名
 	 * @param columnMap 字段名-字段类型之间的映射关系
-	 * @return 
+	 * @return 生成的单条SQL语句
 	 */
 	public static String generateSqlOfInsert(String tabName, Map<String, String> columnMap) {
 		// 合法性判断
@@ -48,9 +48,25 @@ public class BatchUtils {
 			builder.append("1").append(" ,");
 		}
 		builder.setLength(builder.length() - 2);
-		builder.append(")");
+		builder.append(");\r\n");
 		
 		return builder.toString();
+	}
+	
+	/**
+	 * 根据表名，字段名，字段的类型生成批量的插入语句
+	 * @param tabName 数据表名
+	 * @param columnMap 字段名-字段类型之间的映射关系
+	 * @param recordNum 生成的SQL语句的数量
+	 * @return 批量生成的SQL语句
+	 */
+	public static String generateSqlOfInsert(String tabName, Map<String, String> columnMap, Integer recordNum) {
+		StringBuilder batchSql = new StringBuilder();
+		for (int i = 0; i < recordNum; i++) {
+			String insertSql = generateSqlOfInsert(tabName, columnMap);
+			batchSql.append(insertSql);
+		}
+		return batchSql.toString();
 	}
 	
 }
