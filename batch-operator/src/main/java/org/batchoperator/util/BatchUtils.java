@@ -40,7 +40,15 @@ public class BatchUtils {
 			builder.append(entry.getKey()).append(" ,");
 		}
 		builder.setLength(builder.length() - 2);
-		builder.append(tabName).append(")");
+		builder.append(")");
+		
+		// 生成values
+		builder.append(" VALUES(");
+		for (Map.Entry<String, String> entry : set) {
+			builder.append("1").append(" ,");
+		}
+		builder.setLength(builder.length() - 2);
+		builder.append(")");
 		
 		return builder.toString();
 	}
